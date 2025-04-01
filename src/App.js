@@ -6,7 +6,7 @@ import {
   FaBell,
   FaPlus,
 } from "react-icons/fa6"
-import { Line } from "react-chartjs-2"
+// import { Line } from "react-chartjs-2"
 
 import "./App.css"
 import Card from "./components/Card"
@@ -71,7 +71,7 @@ function App() {
         </div>
       </div>
       <div className="second-row">
-        <Line
+        {/* <Line
           data={{
             labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
             datasets: [
@@ -84,7 +84,7 @@ function App() {
               },
             ],
           }}
-        />
+        /> */}
       </div>
     </div>
   )
