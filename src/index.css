@@ -13,26 +13,36 @@ body {
   --white: #ffffff;
   --black: #000000;
   --border-radius: 20px;
+  height: 100vh;
+  width: 100vw;
 }
 
 h1 {
   font-size: 36px;
   font-weight: 600;
   color: var(--text);
+  margin: 0px;
 }
 h2 {
   font-size: 24px;
   font-weight: 600;
   color: var(--text);
+  margin: 0px;
 }
 h3 {
   font-size: 20px;
   font-weight: 600;
   color: var(--text);
+  margin: 0px;
 }
 p {
   font-size: 12px;
   font-weight: 400;
+  color: var(--text);
+  margin: 0px;
+}
+
+.text {
   color: var(--text);
 }
 

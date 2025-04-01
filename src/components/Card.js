@@ -1,11 +1,17 @@
 import "./Card.css"
-function Card(title, date, metric) {
+function Card({ title, date, metric, measurement }) {
   return (
     <div className="container">
-      <h2>{title}</h2>
-      <br />
-      <p>{date}</p>
-      <span className="metric">{metric}</span>
+      <div className="title">
+        <h2>{title}</h2>
+        <p>{date}</p>
+      </div>
+      <div>
+        <span className="metric">{metric}</span>
+        <span className="text" style={{ fontSize: "12px" }}>
+          {measurement}
+        </span>
+      </div>
     </div>
   )
 }
