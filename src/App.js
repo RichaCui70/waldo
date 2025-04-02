@@ -23,6 +23,9 @@ import Card from "./components/Card"
 import Tag from "./components/Tag"
 
 Chart.register(CategoryScale)
+Chart.defaults.font.family = "'Figtree', sans-serif"
+Chart.defaults.font.weight = "bold"
+Chart.defaults.font.color = "#023047"
 
 const dummyRows = [
   { device: "Kitchen Fridge", output: 568 },
@@ -36,6 +39,7 @@ const dummyRows = [
   { device: "Desktop Computer", output: 233 },
 ]
 const dummyChartData = [372, 424, 636, 344, 553, 223]
+const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"]
 function App() {
   return (
     <div className="App">
@@ -97,42 +101,49 @@ function App() {
       </div>
       <div className="second-row">
         <div className="chart-container">
+          <h2 style={{ paddingLeft: "16px" }}>
+            Energy Consumption in last 6 months
+          </h2>
           <div className="mini-tags-container">
-            <Tag label={"January"} />
+            <Tag label={"Last 6 Months"} />
             <Tag label={"Kitchen Fridge"} />
             <Tag label={"Basement Fridge"} />
             <Divider orientation="vertical" flexItem />
             <Tag label={"Graph"} dropdown />
             <Tag label={"Device"} dropdown />
-            <Tag label={"Month"} dropdown />
+            <Tag label={"Range"} dropdown />
           </div>
           <Line
             data={{
-              labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
-
+              labels: months,
               datasets: [
                 {
-                  label: "Users Gained ",
+                  label: "Nut Gained",
                   data: dummyChartData,
-                  backgroundColor: [
-                    "rgba(75,192,192,1)",
-                    "#ecf0f1",
-                    "#f0331a",
-                    "#f3ba2f",
-                    "#2a71d0",
-                    "#2a22d0",
-                  ],
-                  borderColor: "black",
+                  backgroundColor: months.map(() => "#ffb703"),
+                  borderColor: "#023047",
                   borderWidth: 2,
                 },
               ],
             }}
             options={{
-              plugins: {
-                title: {
-                  display: true,
-                  text: "Users Gained between 2016-2020",
+              scales: {
+                x: {
+                  title: {
+                    display: true,
+                    text: "Last 6 Months to Date",
+                    color: "#023047",
+                  },
                 },
+                y: {
+                  title: {
+                    display: true,
+                    text: "Energy Consumption in KwH",
+                    color: "#023047",
+                  },
+                },
+              },
+              plugins: {
                 legend: {
                   display: false,
                 },
@@ -141,7 +152,7 @@ function App() {
           />
         </div>
         <div className="table-container">
-          <h3 style={{ paddingLeft: "16px" }}>All Devices</h3>
+          <h2 style={{ paddingLeft: "16px" }}>All Devices</h2>
           <div className="tags-container">
             <div className="mini-tags-container">
               <Tag label={"Room"} dropdown />

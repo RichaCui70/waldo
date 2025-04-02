@@ -95,7 +95,7 @@
 .table-container {
   width: 25%;
   display: flex;
-  padding: 20px 0px;
+  padding: 16px 0px;
   flex-direction: column;
   align-items: flex-start;
   gap: 8px;
