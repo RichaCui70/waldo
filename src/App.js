@@ -113,43 +113,46 @@ function App() {
             <Tag label={"Device"} dropdown />
             <Tag label={"Range"} dropdown />
           </div>
-          <Line
-            data={{
-              labels: months,
-              datasets: [
-                {
-                  label: "Nut Gained",
-                  data: dummyChartData,
-                  backgroundColor: months.map(() => "#ffb703"),
-                  borderColor: "#023047",
-                  borderWidth: 2,
-                },
-              ],
-            }}
-            options={{
-              scales: {
-                x: {
-                  title: {
-                    display: true,
-                    text: "Last 6 Months to Date",
-                    color: "#023047",
+          <div style={{ position: "relative", height: "40vh", width: "100%" }}>
+            <Line
+              data={{
+                labels: months,
+                datasets: [
+                  {
+                    label: "Nut Gained",
+                    data: dummyChartData,
+                    backgroundColor: months.map(() => "#ffb703"),
+                    borderColor: "#023047",
+                    borderWidth: 2,
+                  },
+                ],
+              }}
+              options={{
+                maintainAspectRatio: false,
+                scales: {
+                  x: {
+                    title: {
+                      display: true,
+                      text: "Last 6 Months to Date",
+                      color: "#023047",
+                    },
+                  },
+                  y: {
+                    title: {
+                      display: true,
+                      text: "Energy Consumption in KwH",
+                      color: "#023047",
+                    },
                   },
                 },
-                y: {
-                  title: {
-                    display: true,
-                    text: "Energy Consumption in KwH",
-                    color: "#023047",
+                plugins: {
+                  legend: {
+                    display: false,
                   },
                 },
-              },
-              plugins: {
-                legend: {
-                  display: false,
-                },
-              },
-            }}
-          />
+              }}
+            />
+          </div>
         </div>
         <div className="table-container">
           <h2 style={{ paddingLeft: "16px" }}>All Devices</h2>
