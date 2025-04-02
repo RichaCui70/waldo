@@ -16,23 +16,24 @@ import TableCell from "@mui/material/TableCell"
 import TableContainer from "@mui/material/TableContainer"
 import TableHead from "@mui/material/TableHead"
 import TableRow from "@mui/material/TableRow"
-import Paper from "@mui/material/Paper"
+import Divider from "@mui/material/Divider"
 
 import "./App.css"
 import Card from "./components/Card"
+import Tag from "./components/Tag"
 
 Chart.register(CategoryScale)
 
 const dummyRows = [
-  { device: "Fridge", output: 23 },
-  { device: "Fridge", output: 23 },
-  { device: "Fridge", output: 23 },
-  { device: "Fridge", output: 23 },
-  { device: "Fridge", output: 23 },
-  { device: "Fridge", output: 23 },
-  { device: "Fridge", output: 23 },
-  { device: "Fridge", output: 23 },
-  { device: "Fridge", output: 23 },
+  { device: "Kitchen Fridge", output: 568 },
+  { device: "Basement Fridge", output: 545 },
+  { device: "Andrew's Lights", output: 364 },
+  { device: "Living Room Lights", output: 237 },
+  { device: "Kithcen Lights", output: 322 },
+  { device: "Washing Machine", output: 543 },
+  { device: "Dryer", output: 432 },
+  { device: "Dishwasher", output: 123 },
+  { device: "Desktop Computer", output: 233 },
 ]
 const dummyChartData = [372, 424, 636, 344, 553, 223]
 function App() {
@@ -96,6 +97,15 @@ function App() {
       </div>
       <div className="second-row">
         <div className="chart-container">
+          <div className="mini-tags-container">
+            <Tag label={"January"} />
+            <Tag label={"Kitchen Fridge"} />
+            <Tag label={"Basement Fridge"} />
+            <Divider orientation="vertical" flexItem />
+            <Tag label={"Graph"} dropdown />
+            <Tag label={"Device"} dropdown />
+            <Tag label={"Month"} dropdown />
+          </div>
           <Line
             data={{
               labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
@@ -130,13 +140,20 @@ function App() {
             }}
           />
         </div>
-        <div style={{}}>
-          <TableContainer component={Paper}>
-            <Table
-              sx={{ minWidth: 650 }}
-              size="small"
-              aria-label="a dense table"
-            >
+        <div className="table-container">
+          <h3 style={{ paddingLeft: "16px" }}>All Devices</h3>
+          <div className="tags-container">
+            <div className="mini-tags-container">
+              <Tag label={"Room"} dropdown />
+              <Tag label={"Month"} dropdown />
+            </div>
+            <div className="mini-tags-container">
+              <Tag label={"All Rooms"} />
+              <Tag label={"January"} />
+            </div>
+          </div>
+          <TableContainer>
+            <Table size="small" aria-label="a dense table">
               <TableHead>
                 <TableRow>
                   <TableCell
@@ -157,7 +174,12 @@ function App() {
                 {dummyRows.map((row) => (
                   <TableRow
                     key={row.name}
-                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                    sx={{
+                      "&:last-child td, &:last-child th": { border: 0 },
+                      "&:nth-of-type(odd)": {
+                        backgroundColor: "#EEEEEE",
+                      },
+                    }}
                   >
                     <TableCell component="th" align="center" scope="row">
                       {row.device}

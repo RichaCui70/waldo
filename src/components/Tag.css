@@ -1,0 +1,14 @@
+.tag-container {
+  display: flex;
+  padding: 8px 12px;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  border-radius: var(--border-radius);
+}
+.orange-bg {
+  background: var(--primary);
+}
+.not-orange-bg {
+  border: 2px solid var(--background);
+}

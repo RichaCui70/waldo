@@ -1,7 +1,7 @@
 .container {
   --padding: 16px;
   display: flex;
-  width: calc(300px - var(--padding));
+  width: 20%;
   height: calc(150px - var(--padding));
   padding: var(--padding);
   flex-direction: column;
