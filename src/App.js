@@ -38,7 +38,8 @@ const dummyRows = [
   { device: "Dishwasher", output: 123 },
   { device: "Desktop Computer", output: 233 },
 ]
-const dummyChartData = [372, 424, 636, 344, 553, 223]
+const dummyChartData1 = [372, 424, 636, 344, 553, 223]
+const dummyChartData2 = [332, 653, 234, 321, 443, 332]
 const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"]
 function App() {
   return (
@@ -106,8 +107,8 @@ function App() {
           </h2>
           <div className="mini-tags-container">
             <Tag label={"Last 6 Months"} />
-            <Tag label={"Kitchen Fridge"} />
-            <Tag label={"Basement Fridge"} />
+            <Tag label={"Kitchen Fridge"} colour={"#fb8500"} />
+            <Tag label={"Basement Fridge"} colour={"#219ebc"} />
             <Divider orientation="vertical" flexItem />
             <Tag label={"Graph"} dropdown />
             <Tag label={"Device"} dropdown />
@@ -119,10 +120,17 @@ function App() {
                 labels: months,
                 datasets: [
                   {
-                    label: "Nut Gained",
-                    data: dummyChartData,
+                    label: "Device 1",
+                    data: dummyChartData1,
                     backgroundColor: months.map(() => "#ffb703"),
-                    borderColor: "#023047",
+                    borderColor: "#219ebc",
+                    borderWidth: 2,
+                  },
+                  {
+                    label: "Device 2",
+                    data: dummyChartData2,
+                    backgroundColor: months.map(() => "#ffb703"),
+                    borderColor: "#fb8500",
                     borderWidth: 2,
                   },
                 ],
