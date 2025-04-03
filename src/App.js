@@ -17,6 +17,7 @@ import TableContainer from "@mui/material/TableContainer"
 import TableHead from "@mui/material/TableHead"
 import TableRow from "@mui/material/TableRow"
 import Divider from "@mui/material/Divider"
+import Tooltip from "@mui/material/Tooltip"
 
 import "./App.css"
 import Card from "./components/Card"
@@ -115,26 +116,34 @@ function App() {
           <p>Here are your stats for the day :&#41;</p>
         </div>
         <div className="icon-container">
-          <div className="icon">
-            <FaCloudSun />
-          </div>
-          <div className="icon">
-            <FaBell />
-          </div>
-          <div className="icon">
-            <FaPlus />
-          </div>
-          <div className="icon">
-            <FaRegUser />
-          </div>
+          <Tooltip title="Usage in development!" placement="top" arrow>
+            <div className="icon">
+              <FaCloudSun />
+            </div>
+          </Tooltip>
+          <Tooltip title="Usage in development!" placement="top" arrow>
+            <div className="icon">
+              <FaBell />
+            </div>
+          </Tooltip>
+          <Tooltip title="Usage in development!" placement="top" arrow>
+            <div className="icon">
+              <FaPlus />
+            </div>
+          </Tooltip>
+          <Tooltip title="Usage in development!" placement="top" arrow>
+            <div className="icon">
+              <FaRegUser />
+            </div>
+          </Tooltip>
         </div>
       </header>
       <div className="first-row">
         <div className="nav-arrows">
-          <div className="arrow">
+          <div className="arrow disabled">
             <FaAngleLeft />
           </div>
-          <div className="arrow">
+          <div className="arrow disabled">
             <FaAngleRight />
           </div>
         </div>

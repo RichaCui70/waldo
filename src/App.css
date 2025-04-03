@@ -65,6 +65,10 @@
   gap: 16px;
 }
 
+.disabled {
+  opacity: 50%;
+}
+
 .arrow {
   width: 24px;
   height: 24px;
