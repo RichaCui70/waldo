@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
 import {
   FaAngleLeft,
   FaAngleRight,
@@ -21,27 +21,92 @@ import Divider from "@mui/material/Divider"
 import "./App.css"
 import Card from "./components/Card"
 import Tag from "./components/Tag"
+// import data from "./data/data.json"
 
 Chart.register(CategoryScale)
 Chart.defaults.font.family = "'Figtree', sans-serif"
 Chart.defaults.font.weight = "bold"
 Chart.defaults.font.color = "#023047"
 
-const dummyRows = [
-  { device: "Kitchen Fridge", output: 568 },
-  { device: "Basement Fridge", output: 545 },
-  { device: "Andrew's Lights", output: 364 },
-  { device: "Living Room Lights", output: 237 },
-  { device: "Kithcen Lights", output: 322 },
-  { device: "Washing Machine", output: 543 },
-  { device: "Dryer", output: 432 },
-  { device: "Dishwasher", output: 123 },
-  { device: "Desktop Computer", output: 233 },
+const dummyDeviceNames = [
+  "Kitchen Fridge",
+  "Basement Fridge",
+  "Andrew's Lights",
+  "Living Room Lights",
+  "Kithcen Lights",
+  "Washing Machine",
+  "Dryer",
+  "Dishwasher",
+  "Desktop Computer",
 ]
-const dummyChartData1 = [372, 424, 636, 344, 553, 223]
-const dummyChartData2 = [332, 653, 234, 321, 443, 332]
+const MAXDEVICES = dummyDeviceNames.length
+const dummyLineColours = [
+  {
+    lineColour: "#219ebc",
+    dotColour: "#ffb703",
+  },
+  {
+    lineColour: "#fb8500",
+    dotColour: "#ffb703",
+  },
+]
 const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"]
+const MAXMONTHS = months.length
+const randThreshold = 322
+
 function App() {
+  const [deviceData, setDeviceData] = useState([])
+  const [dummyNodes, setDummyNodes] = useState([])
+
+  useEffect(() => {
+    const randInt = Math.floor(Math.random() * randThreshold)
+    fetch(
+      "https://f40wll2857.execute-api.us-east-1.amazonaws.com/EnergyDashboardAPI"
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        setDeviceData(data)
+        setDummyNodes([
+          {
+            name: "Energy Usage",
+            range: "Last 30 days",
+            metric:
+              data[Math.floor(Math.random() * randThreshold)].payload
+                .power_usage_watts,
+            measurement: "kwh",
+          },
+          {
+            name: "Carbon Footprint",
+            range: "Last 24 hours",
+            metric:
+              data[Math.floor(Math.random() * randThreshold)].payload
+                .power_usage_watts,
+            measurement: "kg",
+          },
+          {
+            name: "Last Bill Payment",
+            range: "Feb. 3rd, 2025 - Mar. 3rd, 2025",
+            metric:
+              data[Math.floor(Math.random() * randThreshold)].payload
+                .power_usage_watts,
+            measurement: "$",
+          },
+          {
+            name: "Energy Usage Comparison",
+            range: "Week of Mar. 21 v. Week of Mar. 14",
+            metric: `+${(
+              (data[randInt].payload.power_usage_watts +
+                data[randInt + Math.floor(Math.random() * randThreshold)]
+                  .payload.power_usage_watts) /
+              data[randInt].payload.power_usage_watts
+            ).toFixed(2)}`,
+            measurement: "%",
+          },
+        ])
+      })
+      .catch((error) => console.error("Fetch Error:", error))
+  }, [])
+
   return (
     <div className="App">
       <header className="App-header">
@@ -74,30 +139,16 @@ function App() {
           </div>
         </div>
         <div className="node-container">
-          <Card
-            title={"Energy Usage"}
-            date={"Last 30 days"}
-            metric={"1000"}
-            measurement={"kwh"}
-          />
-          <Card
-            title={"Carbon Footprint"}
-            date={"Last 24 hours"}
-            metric={"103"}
-            measurement={"kg"}
-          />
-          <Card
-            title={"Last Bill Payment"}
-            date={"Feb 3rd, 2025 - Mar 3rd, 2025"}
-            metric={"321"}
-            measurement={"$"}
-          />
-          <Card
-            title={"Energy Usage"}
-            date={"Mar. 21 week v. Mar. 14 week"}
-            metric={"+3.13"}
-            measurement={"%"}
-          />
+          {dummyNodes.map((node) => {
+            return (
+              <Card
+                title={node.name}
+                date={node.range}
+                metric={node.metric}
+                measurement={node.measurement}
+              />
+            )
+          })}
         </div>
       </div>
       <div className="second-row">
@@ -107,8 +158,13 @@ function App() {
           </h2>
           <div className="mini-tags-container">
             <Tag label={"Last 6 Months"} />
-            <Tag label={"Kitchen Fridge"} colour={"#fb8500"} />
-            <Tag label={"Basement Fridge"} colour={"#219ebc"} />
+            {[dummyDeviceNames[0], dummyDeviceNames[0 + MAXMONTHS]].map(
+              (device, i) => {
+                return (
+                  <Tag label={device} colour={dummyLineColours[i].lineColour} />
+                )
+              }
+            )}
             <Divider orientation="vertical" flexItem />
             <Tag label={"Graph"} dropdown />
             <Tag label={"Device"} dropdown />
@@ -119,21 +175,21 @@ function App() {
               data={{
                 labels: months,
                 datasets: [
-                  {
-                    label: "Device 1",
-                    data: dummyChartData1,
-                    backgroundColor: months.map(() => "#ffb703"),
-                    borderColor: "#219ebc",
+                  dummyDeviceNames[0],
+                  dummyDeviceNames[0 + MAXMONTHS],
+                ].map((deviceName, i) => {
+                  return {
+                    label: deviceName,
+                    data: deviceData
+                      .slice(0 + i * MAXMONTHS, 0 + i * MAXMONTHS + MAXMONTHS)
+                      .map((data) => {
+                        return data.payload.power_usage_watts
+                      }),
+                    backgroundColor: dummyLineColours[i].dotColour,
+                    borderColor: dummyLineColours[i].lineColour,
                     borderWidth: 2,
-                  },
-                  {
-                    label: "Device 2",
-                    data: dummyChartData2,
-                    backgroundColor: months.map(() => "#ffb703"),
-                    borderColor: "#fb8500",
-                    borderWidth: 2,
-                  },
-                ],
+                  }
+                }),
               }}
               options={{
                 maintainAspectRatio: false,
@@ -193,9 +249,9 @@ function App() {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {dummyRows.map((row) => (
+                {deviceData.slice(0, MAXDEVICES).map((device, i) => (
                   <TableRow
-                    key={row.name}
+                    key={dummyDeviceNames[i]}
                     sx={{
                       "&:last-child td, &:last-child th": { border: 0 },
                       "&:nth-of-type(odd)": {
@@ -204,9 +260,11 @@ function App() {
                     }}
                   >
                     <TableCell component="th" align="center" scope="row">
-                      {row.device}
+                      {dummyDeviceNames[i]}
                     </TableCell>
-                    <TableCell align="center">{row.output}</TableCell>
+                    <TableCell align="center">
+                      {device.payload.power_usage_watts}
+                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>

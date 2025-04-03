@@ -2,7 +2,6 @@ import "./Tag.css"
 import { FaAngleDown, FaXmark } from "react-icons/fa6"
 function Tag({ label, dropdown, colour }) {
   if (!colour) {
-    console.log("ehre")
     colour = "#023047"
   }
   return (
