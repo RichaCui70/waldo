@@ -53,43 +53,41 @@ const dummyLineColours = [
 ]
 const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"]
 const MAXMONTHS = months.length
-const randThreshold = 322
+const MAXPAYMENT = 200
+const MAXCARBON = 300
 
 function App() {
   const [deviceData, setDeviceData] = useState([])
   const [dummyNodes, setDummyNodes] = useState([])
 
   useEffect(() => {
-    const randInt = Math.floor(Math.random() * randThreshold)
     fetch(
       "https://f40wll2857.execute-api.us-east-1.amazonaws.com/EnergyDashboardAPI"
     )
       .then((response) => response.json())
       .then((data) => {
         setDeviceData(data)
+        function getRandomInt() {
+          return Math.floor((Math.random() * data.length) % data.length)
+        }
+        const randInt = getRandomInt()
         setDummyNodes([
           {
             name: "Energy Usage",
             range: "Last 30 days",
-            metric:
-              data[Math.floor(Math.random() * randThreshold)].payload
-                .power_usage_watts,
+            metric: data[getRandomInt()].payload.power_usage_watts,
             measurement: "kwh",
           },
           {
             name: "Carbon Footprint",
             range: "Last 24 hours",
-            metric:
-              data[Math.floor(Math.random() * randThreshold)].payload
-                .power_usage_watts,
+            metric: data[getRandomInt()].payload.power_usage_watts % MAXCARBON,
             measurement: "kg",
           },
           {
             name: "Last Bill Payment",
             range: "Feb. 3rd, 2025 - Mar. 3rd, 2025",
-            metric:
-              data[Math.floor(Math.random() * randThreshold)].payload
-                .power_usage_watts,
+            metric: data[getRandomInt()].payload.power_usage_watts % MAXPAYMENT,
             measurement: "$",
           },
           {
@@ -97,8 +95,7 @@ function App() {
             range: "Week of Mar. 21 v. Week of Mar. 14",
             metric: `+${(
               (data[randInt].payload.power_usage_watts +
-                data[randInt + Math.floor(Math.random() * randThreshold)]
-                  .payload.power_usage_watts) /
+                data[getRandomInt()].payload.power_usage_watts) /
               data[randInt].payload.power_usage_watts
             ).toFixed(2)}`,
             measurement: "%",
